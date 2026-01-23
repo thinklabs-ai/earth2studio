@@ -75,14 +75,20 @@ from dotenv import load_dotenv
 
 load_dotenv()  # TODO: make common example prep function
 
-from earth2studio.data import HRRR
+from earth2studio.data import HRRR, ARCO
 from earth2studio.io import ZarrBackend
 from earth2studio.models.px import StormCast
 
+conditioning_data_source = ARCO()
+
 # Load the default model package which downloads the check point from NGC
-# Use the default conditioning data source GFS_FX
 package = StormCast.load_default_package()
-model = StormCast.load_model(package)
+model = StormCast.load_model(package, conditioning_data_source=conditioning_data_source)
+
+# # Load the default model package which downloads the check point from NGC
+# # Use the default conditioning data source GFS_FX
+# package = StormCast.load_default_package()
+# model = StormCast.load_model(package)
 
 # Create the data source
 data = HRRR()
@@ -104,7 +110,8 @@ io = ZarrBackend()
 import earth2studio.run as run
 
 nsteps = 4
-today = datetime.today() - timedelta(days=1)
+today = datetime.fromisoformat("2023-06-01T00:00:00")
+#today = datetime.today() - timedelta(days=30)
 date = today.isoformat().split("T")[0]
 io = run.deterministic([date], nsteps, model, data, io)
 
