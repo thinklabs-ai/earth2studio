@@ -94,7 +94,7 @@ model = StormCast.load_model(package, conditioning_data_source=conditioning_data
 data = HRRR()
 
 # Create the IO handler, store in memory
-io = ZarrBackend()
+io = ZarrBackend(file_name="/home/ec2-user/data/stormcast_deterministic.zarr")
 
 # %%
 # Execute the Workflow
@@ -109,7 +109,7 @@ io = ZarrBackend()
 # %%
 import earth2studio.run as run
 
-nsteps = 4
+nsteps = 36
 today = datetime.fromisoformat("2023-06-01T00:00:00")
 #today = datetime.today() - timedelta(days=30)
 date = today.isoformat().split("T")[0]

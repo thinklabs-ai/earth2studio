@@ -95,7 +95,7 @@ z = Zero()
 data = HRRR()
 
 # Create the IO handler, store in memory
-io = ZarrBackend()
+io = ZarrBackend(file_name="/home/ec2-user/data/stormcast_ensemble.zarr")
 
 # %%
 # Execute the Workflow
@@ -110,8 +110,8 @@ io = ZarrBackend()
 # %%
 import earth2studio.run as run
 
-nsteps = 4
-nensemble = 4
+nsteps = 48
+nensemble = 10
 batch_size = 2
 
 date = "2022-11-04T21:00:00"
