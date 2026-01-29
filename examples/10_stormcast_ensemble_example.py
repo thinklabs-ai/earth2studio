@@ -81,12 +81,19 @@ from earth2studio.io import ZarrBackend
 from earth2studio.models.px import StormCast
 from earth2studio.perturbation import Zero
 
-# Create and set the conditioning data source
-conditioning_data_source = ARCO()
 
-# Load the default model package which downloads the check point from NGC
+# # Load the default model package which downloads the check point from NGC
+# package = StormCast.load_default_package()
+# # Create and set the conditioning data source to ARCO
+# conditioning_data_source = ARCO()
+# model = StormCast.load_model(package, conditioning_data_source=conditioning_data_source)
+
+
+# # Load the default model package which downloads the check point from NGC
+# # Use the default conditioning data source GFS_FX
 package = StormCast.load_default_package()
-model = StormCast.load_model(package, conditioning_data_source=conditioning_data_source)
+model = StormCast.load_model(package)
+
 
 # Instantiate the (Zero) perturbation method
 z = Zero()
@@ -95,7 +102,7 @@ z = Zero()
 data = HRRR()
 
 # Create the IO handler, store in memory
-io = ZarrBackend(file_name="/home/ec2-user/data/stormcast_ensemble_wspd_2022-11-11.zarr")
+io = ZarrBackend(file_name="/home/ec2-user/data/stormcast_ensemble_wspd_2022-11-11_gfs.zarr")
 
 # %%
 # Execute the Workflow
@@ -110,9 +117,9 @@ io = ZarrBackend(file_name="/home/ec2-user/data/stormcast_ensemble_wspd_2022-11-
 # %%
 import earth2studio.run as run
 
-nsteps = 74
+nsteps = 24
 nensemble = 4
-batch_size = 2
+batch_size = None
 
 date = "2022-11-11T00:00:00"
 io = run.ensemble(
