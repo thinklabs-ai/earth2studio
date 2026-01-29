@@ -95,7 +95,7 @@ z = Zero()
 data = HRRR()
 
 # Create the IO handler, store in memory
-io = ZarrBackend(file_name="/home/ec2-user/data/stormcast_ensemble.zarr")
+io = ZarrBackend(file_name="/home/ec2-user/data/stormcast_ensemble_wspd_2022-11-11.zarr")
 
 # %%
 # Execute the Workflow
@@ -110,11 +110,11 @@ io = ZarrBackend(file_name="/home/ec2-user/data/stormcast_ensemble.zarr")
 # %%
 import earth2studio.run as run
 
-nsteps = 48
-nensemble = 10
+nsteps = 74
+nensemble = 4
 batch_size = 2
 
-date = "2022-11-04T21:00:00"
+date = "2022-11-11T00:00:00"
 io = run.ensemble(
     [date],
     nsteps,
@@ -124,7 +124,7 @@ io = run.ensemble(
     io,
     z,
     batch_size=batch_size,
-    output_coords={"variable": np.array(["t2m", "refc"])},
+    output_coords={"variable": np.array(["t2m", "refc", "u10m", "v10m"])},
 )
 
 print(io.root.tree())
